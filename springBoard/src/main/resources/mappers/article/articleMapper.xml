@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seunghwan.springBoard.mappers.article.articleMapper">
+
+	<sql id="search">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='searchType' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="searchType == 'T'.toString()">
+							articleTitle LIKE CONCAT('%',#{keyword},'%')
+						</when>
+						<when test="searchType == 'C'.toString()">
+							articleContent LIKE CONCAT('%',#{keyword},'%')
+						</when>
+						<when test="searchType == 'W'.toString()">
+							userName LIKE CONCAT('%',#{keyword},'%')
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+	<select id="list" resultType="com.seunghwan.springBoard.article.dto.ArticleDto">
+<!-- 		SELECT articleId, userId, articleTitle, articleContent, articleDate, access, 
+			articleHit, articleGroup, articleStep, articleIndent
+		FROM article
+		WHERE access = 0
+		ORDER BY articleGroup DESC, articleStep ASC
+		LIMIT #{startArticleId}, #{articlePerPage} -->
+
+		SELECT articleId, userId, userName, articleTitle, articleContent, articleDate, access, 
+			articleHit, articleGroup, articleStep, articleIndent
+		FROM article
+		WHERE
+		<include refid="search"/>
+		access = 0
+		ORDER BY articleGroup DESC, articleStep ASC
+		LIMIT #{startArticleId}, #{articlePerPage}
+	</select>
+	
+	<select id="getTotalArticle" resultType="int">
+		SELECT COUNT(articleId)
+		FROM article
+		WHERE
+		<include refid="search"/>
+		access = 0;
+	</select>
+	
+	<insert id="updateHit">
+		UPDATE article SET articleHit = articleHit + 1 WHERE articleId = #{param1}
+	</insert>
+	
+	<select id="getArticle" resultType="com.seunghwan.springBoard.article.dto.ArticleDto">
+		SELECT * FROM article WHERE articleId = #{param1}
+	</select>
+	
+	<select id="getMaxArticleId" resultType="String">
+		SELECT MAX(articleId) FROM article
+	</select>
+	
+	<insert id="insertArticle">
+		INSERT INTO article(userId, userName, articleTitle, articleContent, access, articleHit, articleGroup, articleStep, articleIndent) VALUES (#{userId}, #{userName}, #{articleTitle}, #{articleContent}, 0, 0,
+		 IFNULL((SELECT MAX(articleId) + 1 from article a), 1), #{articleStep}, #{articleIndent})
+	</insert>
+	
+	<update id="deleteArticle">
+		UPDATE article SET access = 1 WHERE articleId = #{articleId}
+	</update>
+	
+	<update id="modifyArticle">
+		UPDATE article SET articleTitle=#{articleTitle}, articleContent=#{articleContent} WHERE articleId=#{articleId}
+	</update>
+	
+	<update id="replyShape">
+		UPDATE article SET articleStep = articleStep + 1 WHERE articleGroup = #{articleGroup} AND articleStep > #{articleStep}
+	</update>
+	
+	<insert id="insertReply">
+		INSERT INTO article(userId, userName, articleTitle, articleContent, access, articleHit, articleGroup, articleStep, articleIndent) VALUES (#{userId}, #{userName}, #{articleTitle}, #{articleContent}, 0, 0,
+		 #{articleGroup}, #{articleStep}+1, #{articleIndent}+1)
+	</insert>
+	
+</mapper>

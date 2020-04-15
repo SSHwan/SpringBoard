@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seunghwan.springBoard.mappers.reply.replyMapper">
+
+	<select id="listReply" resultType="com.seunghwan.springBoard.reply.dto.ReplyDto">
+		SELECT reply_id, article_id, reply_content, user_id, user_name, reg_date, update_date
+		FROM reply
+		WHERE article_id = #{articleId}
+		ORDER BY reply_id DESC
+		LIMIT #{criteria.startArticleId}, #{criteria.articlePerPage}
+	</select>
+	
+	<select id="countReply" resultType="int">
+		SELECT COUNT(reply_id)
+		FROM reply
+		WHERE article_id = #{articleId}
+	</select>
+
+	<insert id="insertReply">
+		INSERT INTO reply (article_id, reply_content, user_id, user_name)
+		VALUES (#{article_id}, #{reply_content}, #{user_id}, #{user_name})
+	</insert>
+	
+	<update id="updateReply">
+		UPDATE reply
+		SET reply_content = #{reply_content}, update_date = NOW()
+		WHERE reply_id = #{reply_id}
+	</update>
+	
+	<delete id="deleteReply">
+		DELETE FROM reply
+		WHERE reply_id = #{reply_id}
+	</delete>
+	
+</mapper>
