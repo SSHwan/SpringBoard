@@ -9,34 +9,43 @@
 </head>
 <body>
 <%@ include file="./includes/header.jsp"%>
-<div class="container">
-<h1> Hello world! </h1>
-<P> The time on the server is ${serverTime}. </P>
-<p> destination is "${destination}" </p>
+<div class="container-fluid">
+
+<div class="card my-4" style="max-width: 50rem;">
+<div class="card-header">안녕하세요!</div>
+<div class="card-body">
+<h5 class="card-title">Spring Framework으로 회원가입, 로그인, 답글 게시판, 댓글 기능 등을 제작했습니다.</h5>
+<p class="card-text"> - 회원가입(유효성검사, 아이디 중복 체크, 비밀번호 Bcrypt로 암호화)</p>
+<p class="card-text"> - 로그인(interceptor), 로그아웃 (게시판은 로그인을 해야 접근 가능하도록 interceptor 처리)</p>
+<p class="card-text"> - 계층형 게시판(답글, 댓글(ajax), page, 검색(제목or내용or작성자 검색, MyBatis 동적 SQL 활용))</p></div>
+<div class="card-footer">제 이메일 주소는 gksl4157@naver.com 입니다.</div>
+</div>
 
 <c:if test="${not empty user}">
-<p>${user.user_id}</p>
-<p>${user.user_name}님 환영합니다.</p>
-
-<p><a href="${pageContext.request.contextPath}/user/logout">로그아웃</a></p>
+<div class="card my-3" style="max-width: 50rem;">
+<div class="card-header">
+<h2>${user.user_name}님 환영합니다.</h2>
+</div>
+<div class="card-body">
+<h5 class="card-title">게시판을 자유롭게 이용 가능합니다.</h5></div>
+<div class="card-footer"><a href="${pageContext.request.contextPath}/user/logout" class="card-link">로그아웃</a></div>
+</div>
 </c:if>
 
 <c:if test="${empty user}">
-<p>로그인해주세요.</p>
-<p><a href="${pageContext.request.contextPath}/user/loginForm">로그인</a>
-&nbsp;&nbsp;&nbsp;<a href="${pageContext.request.contextPath}/user/joinForm">회원가입</a>
-</p>
-</c:if>
+<div class="card my-3" style="max-width: 50rem;">
+<div class="card-header">
+<h2>로그인이 필요합니다.</h2>
 </div>
+<div class="card-body">
+<h5 class="card-title">게시판을 이용하려면 로그인이 필요합니다.</h5></div>
+<div class="card-footer">
+<a href="${pageContext.request.contextPath}/user/loginForm" class="card-link">로그인</a>
+<a href="${pageContext.request.contextPath}/user/joinForm" class="card-link">회원가입</a></div>
+</div>
+</c:if> 
 
-<br/><br/>
-<p>interceptor 방식</p>
-<p><a href="${pageContext.request.contextPath}/userPage">회원 페이지</a>&nbsp;&nbsp;
-<a href="${pageContext.request.contextPath}/adminPage">관리자 페이지</a></p><br>
-<p>메뉴</p>
-<p><a href="${pageContext.request.contextPath}/article/article">게시판</a>&nbsp;&nbsp;
-</p>
-
+</div>
 <script>
 	var msg = "${msg}";
 	if(msg === "joinSuccess") {
