@@ -12,7 +12,7 @@ Spring Framework으로 회원가입, 로그인, 답글 게시판, 댓글 기능 
 ### 홈화면
 ![홈화면](https://user-images.githubusercontent.com/46616930/80090616-c08ac880-859a-11ea-9e7e-7c750c09f640.png)
 ### 회원가입
-![회원가입](https://user-images.githubusercontent.com/46616930/80091178-a2719800-859b-11ea-9b91-863e5fb243bb.png)
+![회원가입](https://user-images.githubusercontent.com/46616930/80094819-e23b7e00-85a1-11ea-8393-19537d9f0c0b.png)
 ### 로그인
 ![로그인](https://user-images.githubusercontent.com/46616930/80091184-a43b5b80-859b-11ea-9248-9fa2a9d7d64e.png)
 ### 게시판
