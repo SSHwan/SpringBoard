@@ -7,6 +7,9 @@ Spring Framework으로 회원가입, 로그인, 답글 게시판, 댓글 기능 
 
 계층형 게시판(답글, 댓글(ajax), page, 검색(제목or내용or작성자 검색, MyBatis 동적 SQL 활용))
 
+---스크린샷---
+![홈화면](https://user-images.githubusercontent.com/46616930/80090616-c08ac880-859a-11ea-9e7e-7c750c09f640.png)
+
 ---version---
 
 -java 8  
